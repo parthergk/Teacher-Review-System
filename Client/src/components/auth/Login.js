@@ -14,7 +14,7 @@ const Login = () => {
       if (!collegeID || !password) {
         setMessage("Please enter your CollegeId Or Password");        
       }else{
-        const response = await axios.post("https://trsbackend.vercel.app/api/auth/login", {
+        const response = await axios.post("https://teacher-review-system-three.vercel.app/api/auth/login", {
           collegeID,
           password,
         });
