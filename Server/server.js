@@ -6,8 +6,11 @@ const reviewsRoutes = require("./routes/reviews");
 const reviewRoutes = require("./routes/review");
 const searchRoutes = require("./routes/search");
 const app = express();
+require('dotenv').config();
 const port = process.env.PORT || 3000;
 const db_uri = process.env.DB_URI;
+
+console.log(db_uri);
 
 app.use(cors({
     origin: 'https://vgc-trs.vercel.app',
