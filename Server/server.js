@@ -13,7 +13,7 @@ const db_uri = process.env.DB_URI;
 console.log(db_uri);
 
 app.use(cors({
-    origin: 'https://vgc-trs.vercel.app/',
+    origin: 'https://vgc-trs.vercel.app',
     credentials: true,
 }));
 app.use(express.urlencoded({ extended: true }));
