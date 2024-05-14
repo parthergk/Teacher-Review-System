@@ -14,7 +14,7 @@ export const Reviews = () => {
   const getReviews = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("https://trsbackend.vercel.app/api/reviews", {
+      const res = await fetch("https://teacher-review-system-three.vercel.app/api/reviews", {
         headers: { Authorization: token },
       });
 

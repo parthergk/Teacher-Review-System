@@ -15,7 +15,7 @@ const Signup = () => {
         setMessage("Please enter your CollegeId Or Password");
       } else {
         const response = await axios.post(
-          "https://trsbackend.vercel.app/api/auth/register",
+          "https://teacher-review-system-three.vercel.app/api/auth/register",
           { collegeID, password }
         );
         setMessage(response.data.message);

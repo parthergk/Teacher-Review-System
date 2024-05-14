@@ -28,7 +28,7 @@ export const SearchReview = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "https://trsbackend.vercel.app/api/search",
+        "https://teacher-review-system-three.vercel.app/api/search",
         {
           collegeName: selectedCollege,
           departmentName: selectedDepartment,
