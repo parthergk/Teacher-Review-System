@@ -31,7 +31,7 @@ const AddReview = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "https://trsbackend.vercel.app/api/review",
+        "https://teacher-review-system-three.vercel.app/api/review",
         {
           collegeName: selectedCollege,
           departmentName: selectedDepartment,
