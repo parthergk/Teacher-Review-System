@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collegeData, departmentData } from "../mocks/data";
 import Review from "./Review";
 import axios from "axios";
+import { url } from "../mocks/url";
 
 export const SearchReview = () => {
   const [selectedCollege, setSelectedCollege] = useState("");
@@ -28,7 +29,7 @@ export const SearchReview = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "https://teacher-review-system-three.vercel.app/api/search",
+        `${url}/api/search`,
         {
           collegeName: selectedCollege,
           departmentName: selectedDepartment,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collegeData, departmentData } from "../mocks/data";
 import axios from "axios";
 import Review from "./Review";
+import { url } from "../mocks/url";
 
 const AddReview = () => {
   const rating = [1, 2, 3, 4, 5];
@@ -31,7 +32,7 @@ const AddReview = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "https://teacher-review-system-three.vercel.app/api/review",
+        `${url}/api/review`,
         {
           collegeName: selectedCollege,
           departmentName: selectedDepartment,

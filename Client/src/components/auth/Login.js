@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { url } from "../mocks/url";
 const Login = () => {
   const [collegeID, setCollegeId] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
+  // This will be the route the user tried to access before being redirected to login
+  const from = location.state?.from; // Default to home if no previous path
+  
   const loginuser = async (e) => {
     e.preventDefault();
     try {
       if (!collegeID || !password) {
         setMessage("Please enter your CollegeId or Password");
       } else {
-        const response = await axios.post("https://teacher-review-system-three.vercel.app/api/auth/login", {
+        const response = await axios.post(`${url}/api/auth/login`, {
           collegeID,
           password,
         });
@@ -23,9 +27,8 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         setMessage(response.data.message); // Set message from response data
 
-        setTimeout(() => {
-          navigate('/home/reviews');
-        }, 1500);
+        // Redirect to the saved path after login
+        navigate(from, { replace: true });
       }
     } catch (error) {
       if (error.response) {

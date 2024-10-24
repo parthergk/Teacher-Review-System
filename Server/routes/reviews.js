@@ -1,9 +1,8 @@
 const express = require("express");
-const verifyToken = require("../middleware/verifyToken");
 const router = express.Router();
 const Reviews = require("../models/Reviews");
 
-router.get('/reviews', verifyToken, async(req, res) => {
+router.get('/reviews',  async(req, res) => {
     try {
         const reviews =await Reviews.find();
         res.json(reviews);

@@ -16,13 +16,18 @@ const appRouter = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: '/signup',
-        element: <Signup />,
+        path: '/',
+        element: <Reviews />,
         errorElement: <Error />
       },
       {
-        path: '/',
+        path: '/login',
         element: <Login />,
+        errorElement: <Error />
+      },
+      {
+        path: '/signup',
+        element: <Signup />,
         errorElement: <Error />
       },
       {
@@ -30,11 +35,6 @@ const appRouter = createBrowserRouter([
         element: <Home />,
         errorElement: <Error />,
         children: [
-          {
-            path: 'reviews',
-            element: <Reviews />,
-            errorElement: <Error />
-          },
           {
             path: 'addreview',
             element: <AddReview />,
