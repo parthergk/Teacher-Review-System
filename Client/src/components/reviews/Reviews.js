@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Review from "./Review";
 import { useNavigate } from "react-router-dom";
 import { url } from "../mocks/url";
+import ReviewsShi from "../ReviewsShi";
 
 export const Reviews = () => {
   const [responseData, setResponseData] = useState();
@@ -45,14 +46,14 @@ export const Reviews = () => {
     getReviews();
   }, []);
 
-  const checkAuth = (urls)=>{
+  const checkAuth = (urls) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login', { state: { from: urls } });
+      navigate("/login", { state: { from: urls } });
     } else {
       navigate(urls);
     }
-  }
+  };
 
   return (
     <>
@@ -66,22 +67,34 @@ export const Reviews = () => {
           </h1>
           <div className=" w-full bg-white p-2 sm:p-5 rounded-sm shadow-md flex flex-col items-center">
             <div className=" flex justify-between w-full px-4 sm:px-10">
-                <button onClick={()=>{checkAuth('/home/addreview')}} className=" bg-primary font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 p-1 rounded-sm">
-                  Submit Review
-                </button>
-                <button onClick={()=>{checkAuth('/home/searchreview')}} className=" bg-primary font-normal text-white sm:text-xl sm:px-3 sm:py-2 text-sm p-1 rounded-sm">
-                  Search Review
-                </button>
+              <button
+                onClick={() => {
+                  checkAuth("/home/addreview");
+                }}
+                className=" bg-primary font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 p-1 rounded-sm"
+              >
+                Submit Review
+              </button>
+              <button
+                onClick={() => {
+                  checkAuth("/home/searchreview");
+                }}
+                className=" bg-primary font-normal text-white sm:text-xl sm:px-3 sm:py-2 text-sm p-1 rounded-sm"
+              >
+                Search Review
+              </button>
             </div>
-            <div className=" w-full rounded-sm shadow-md mt-5 p-2 sm:p-4 flex flex-col gap-2 sm:gap-4">
-              {reversedReviews ? (
-                reversedReviews.map((review) => (
-                  <Review key={review._id} data={review} />
-                ))
-              ) : (
-                <p>{responsemessage}</p>
-              )}
-            </div>
+            {responseData ?  
+              (<div className=" w-full rounded-sm shadow-md mt-5 p-2 sm:p-4 flex flex-col gap-2 sm:gap-4">
+                {reversedReviews ? (
+                  reversedReviews.map((review) => (
+                    <Review key={review._id} data={review} />
+                  ))
+                ) : (
+                  <p>{responsemessage}</p>
+                )}
+              </div>): (<ReviewsShi/>)
+            }
           </div>
         </div>
       </div>
