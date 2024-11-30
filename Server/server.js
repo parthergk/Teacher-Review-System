@@ -10,9 +10,10 @@ require('dotenv').config();
 const port = process.env.PORT || 3000;
 const db_uri = process.env.DB_URI;
 
-console.log(db_uri);
+// console.log(db_uri);
 
 app.use(cors({
+  // origin: ' http://localhost:1234',
     origin: 'https://vgc-trs.vercel.app',
     credentials: true,
 }));
