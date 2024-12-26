@@ -11,6 +11,7 @@ export const SearchReview = () => {
   const [responseData, setResponseData] = useState();
   const [responsemessage, setResponseMessage] = useState(null);
   const [reversedReviews, setReversedReviews] = useState();
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(()=>{
     setReversedReviews(responseData && responseData.reverse());
@@ -27,6 +28,7 @@ export const SearchReview = () => {
   const getReviews = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
+    setIsSearching(true)
     try {
       const response = await axios.post(
         `${url}/api/search`,
@@ -38,6 +40,8 @@ export const SearchReview = () => {
         { headers: { Authorization: token } }
       );
 
+      setIsSearching(false);
+      
       const data = response.data;
 
       if (response.status === 401) {
@@ -134,9 +138,10 @@ export const SearchReview = () => {
             </div>
             <button
               type="submit"
-              className=" bg-primary font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 px-2 py-1 rounded-sm"
+              className={`${isSearching ? 'bg-teal-700' : 'bg-primary'} font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 px-2 py-1 rounded-sm`}
+
             >
-              Search
+              {isSearching?'Searching':'Search'}
             </button>
           </form>
           <div className=" w-full rounded-sm shadow-md mt-5 p-2 sm:p-4 flex flex-col gap-2 sm:gap-4">

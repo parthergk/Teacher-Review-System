@@ -7,17 +7,23 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const registerUser = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       if (!collegeID || !password) {
         setMessage("Please enter your CollegeId Or Password");
+        setIsSubmitting(false);
       } else {
         const response = await axios.post(
           `${url}/api/auth/register`,
           { collegeID, password }
         );
+
+        setIsSubmitting(true);
         setMessage(response.data.message);
 
         setTimeout(() => {
@@ -62,7 +68,7 @@ return (
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className=" bg-white xl:mt-6 py-2 text-lg">SignUp</button>
+          <button type="submit" className={`rounded ${isSubmitting?'bg-gray-200':'bg-white'}" xl:mt-6 py-2 text-lg"`}>SignUp</button>
         </form>
         <div className=" text-lg text-gray-400 mt-5 text-center">{message}</div>
         

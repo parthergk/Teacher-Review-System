@@ -7,6 +7,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState('');
   const [isCopied, setIsCopied] = useState(false);
+  const [ isSubmitting, setIsSubmtting] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -15,15 +17,17 @@ const Login = () => {
   
   const loginuser = async (e) => {
     e.preventDefault();
+    setIsSubmtting(true);
     try {
       if (!collegeID || !password) {
         setMessage("Please enter your CollegeId or Password");
+        setIsSubmtting(false);
       } else {
         const response = await axios.post(`${url}/api/auth/login`, {
           collegeID,
           password,
         });
-
+        setIsSubmtting(false);
         localStorage.setItem('token', response.data.token);
         setMessage(response.data.message); // Set message from response data
 
@@ -78,7 +82,7 @@ const Login = () => {
             }}
           />
 
-          <button type="submit" className="bg-white xl:mt-6 py-2 text-lg">Login</button>
+          <button type="submit" className={`rounded ${isSubmitting?'bg-gray-200':'bg-white'} xl:mt-6 py-2 text-lg`} disabled={isSubmitting}>{isSubmitting ? 'Logining' : 'Login'}</button>
         </form>
         <div className="text-lg text-gray-400 mt-5 text-center">{message}</div>
         <span className="text-white text-lg text-end mb-5 xl:my-5">Don't have an account? <Link to={'/signup'}><button className="text-white underline">SignUp</button></Link></span>
