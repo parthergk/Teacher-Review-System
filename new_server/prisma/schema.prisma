@@ -13,7 +13,7 @@ model CollegeId {
 }
 
 model Student {
-  id Int @unique
+  id Int @unique @default(autoincrement())
   collegeId String @unique
   password String
 }
