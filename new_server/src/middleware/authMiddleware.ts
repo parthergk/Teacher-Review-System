@@ -3,19 +3,20 @@ import { z } from "zod";
 import jwt from "jsonwebtoken";
 
 interface JwtPayload {
-    id: string;
+    id: number;
 }
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export const middleware = (req: Request, res: Response, next: NextFunction) => {
+export function authMiddleware (req: Request, res: Response, next: NextFunction):void {
     const tokenSchema = z.string();
 
     try {
         const parseToken = tokenSchema.safeParse(req.cookies.token);
 
         if (!parseToken.success) {
-            return res.status(401).json({ message: "You are not signed in" });
+             res.status(401).json({ message: "You are not signed in" });
+             return
         }
 
         if (!JWT_SECRET) {

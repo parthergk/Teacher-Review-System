@@ -16,13 +16,16 @@ model Student {
   id Int @unique @default(autoincrement())
   collegeId String @unique
   password String
+  reviews Review[]
 }
 
 model Review {
-  id Int @unique
+  id Int @unique @default(autoincrement())
   collegeName String
   departmentName String
   teacherName String
   review String
   rating Int
+  studentId Int
+  student Student @relation(fields: [studentId], references: [id])
 }
