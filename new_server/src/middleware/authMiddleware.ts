@@ -3,7 +3,7 @@ import { z } from "zod";
 import jwt from "jsonwebtoken";
 
 interface JwtPayload {
-    id: number;
+    id: string;
 }
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -13,7 +13,6 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
 
     try {
         const parseToken = tokenSchema.safeParse(req.cookies.token);
-        console.log("token", parseToken);
         
         if (!parseToken.success) {
              res.status(401).json({ message: "You are not signed in" });
@@ -25,9 +24,9 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
         }
 
         const verify = jwt.verify(parseToken.data, JWT_SECRET) as JwtPayload;
-
+        
         if (verify) {
-            req.studentId = verify.id;
+            req.studentId = parseInt(verify.id);
             return next();
         }
 

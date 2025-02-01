@@ -17,11 +17,12 @@ reviewRoute.post('/review', authMiddleware, async (req: Request, res: Response):
 
     const parsedBody = requiredBody.safeParse(req.body);
     const studentId = req.studentId;
-
+    
     if (!parsedBody.success) {
         return res.status(200).json({ message: "Invalid input data" });
     }
-    const { collegeName, departmentName, teacherName, review, rating } = parsedBody.data
+    const { collegeName, departmentName, teacherName, review, rating } = parsedBody.data;
+    
 
     try {
         const newReview = await client.review.create({
@@ -40,14 +41,14 @@ reviewRoute.post('/review', authMiddleware, async (req: Request, res: Response):
         }
         res.status(200).json({message:"Review added successfully"});
     } catch (error) {
-        console.log("server side error");
+        console.log("server side error",error);
         res.status(500).json({error:"server side error"});
     }
 })
 
 reviewRoute.get('/review',authMiddleware, async (req: Request, res: Response): Promise<any> =>{
     try {
-        const allReviews = client.review.findMany();
+        const allReviews = await client.review.findMany();
         return res.status(200).json({reviews:allReviews});
     } catch (error) {
         console.log("server side error");
