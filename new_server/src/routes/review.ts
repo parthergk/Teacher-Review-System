@@ -45,3 +45,12 @@ reviewRoute.post('/review', authMiddleware, async (req: Request, res: Response):
     }
 })
 
+reviewRoute.get('/review',authMiddleware, async (req: Request, res: Response): Promise<any> =>{
+    try {
+        const allReviews = client.review.findMany();
+        return res.status(200).json({reviews:allReviews});
+    } catch (error) {
+        console.log("server side error");
+        res.status(500).json({error:"server side error"});
+    }  
+})
