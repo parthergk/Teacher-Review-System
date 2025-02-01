@@ -69,6 +69,9 @@ authRoute.post('/signin', async (req: Request, res: Response): Promise<any> => {
 
     const bodyData = requiredBody.safeParse(req.body);
 
+    console.log("Body Parsed", bodyData);
+    
+
     if (!bodyData.success) {
         return res.status(400).json({ message: "Invalid input data" });
     }

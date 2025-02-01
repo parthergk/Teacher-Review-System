@@ -54,3 +54,5 @@ reviewRoute.get('/review',authMiddleware, async (req: Request, res: Response): P
         res.status(500).json({error:"server side error"});
     }  
 })
+
+export {reviewRoute}

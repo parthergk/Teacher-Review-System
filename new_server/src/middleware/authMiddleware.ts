@@ -13,10 +13,11 @@ export function authMiddleware (req: Request, res: Response, next: NextFunction)
 
     try {
         const parseToken = tokenSchema.safeParse(req.cookies.token);
-
+        console.log("token", parseToken);
+        
         if (!parseToken.success) {
              res.status(401).json({ message: "You are not signed in" });
-             return
+             return;
         }
 
         if (!JWT_SECRET) {
