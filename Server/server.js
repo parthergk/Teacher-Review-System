@@ -22,7 +22,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Mounting the routes
 app.use('/api/auth', authRoutes);
 app.use('/api', reviewsRoutes);
 app.use('/api', reviewRoutes);
@@ -37,7 +36,7 @@ main()
   })
   .catch((err) => {
     console.error("Error connecting to the database:", err.message);
-    process.exit(1); // Exit the process if database connection fails
+    process.exit(1);
   });
 
 
