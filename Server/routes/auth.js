@@ -64,12 +64,12 @@ router.post('/login', async (req, res) => {
         
         const user = await User.findOne({ collegeID });
         if (!user) {
-            return res.status(400).json({ message: 'Invalid College ID or password"' });
+            return res.status(400).json({ message: 'Invalid College ID or password'});
         }
 
         const verifyPassword = await bcrypt.compare(password, user.password);
         if (!verifyPassword) {
-            return res.status(400).json({ message: 'Invalid College ID or password"' });
+            return res.status(400).json({ message: 'Invalid College ID or password' });
         }
 
         const token = jwt.sign({ _id: user._id }, JWT_SECRET);

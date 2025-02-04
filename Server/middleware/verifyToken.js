@@ -1,32 +1,30 @@
 const jwt = require("jsonwebtoken");
+const { z } = require("zod");
 const User = require("../models/User");
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
 module.exports = (req, res, next) => {
-    const token = req.headers.authorization;
+  const tokenSchema = z.string();
 
-    if (!token) {
-        return res.status(401).json({message: "You must log in" });
+  log
+  try {
+    const parseToken = tokenSchema.safeParse(req.cookies.token);
+
+    if (!parseToken.success) {
+      res.status(401).json({ message: "You must log in" });
+      return;
     }
 
-    jwt.verify(token, JWT_SECRET, (err, payload) => {
-        if (err) {
-            return res.status(401).json({ message: "You must log in" });
-        }
-
-        const { _id } = payload;
-
-        User.findById(_id)
-            .then(userdata => {
-                if (!userdata) {
-                    return res.status(404).json({ message: "User not found" });
-                }
-                req.user = userdata;
-                next();
-            })
-            .catch(err => {
-                console.error("Error finding user:", err);
-                return res.status(500).json({ message: "Internal server error" });
-            });
+    jwt.verify(parseToken.data, JWT_SECRET, (err, payload) => {
+      if (err) {
+        return res.status(401).json({ message: "You must log in" });
+      }
+      const { _id } = payload;
+      req.studentID = _id;
+      next();
     });
+  } catch (error) {
+    console.error("Server-side error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
