@@ -1,6 +1,8 @@
 const express = require("express");
-const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const {z} = require("zod");
+const bcrypt = require("bcrypt")
+const User = require("../models/User");
 const CollegeID = require("../models/CollegeId");
 
 const router = express.Router();
@@ -9,53 +11,76 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-// User registration endpoint
 router.post('/register', async (req, res) => {
+    const requiredBody = z.object({
+        collegeID : z.string(),
+        password: z.string().min(4)
+    });
+
+    const parsedBody = requiredBody.safeParse(req.body);
+
+    if (!parsedBody.success) {
+        return res.status(400).json({message:'Invalid Inputs'});
+    }
+
     try {
-        const { collegeID, password } = req.body;
+        const { collegeID, password } = parsedBody.data;
 
         const verifycollegeId = await CollegeID.findOne({collegeID});
         if(!verifycollegeId){
             return res.status(400).json({ message: 'Invalid College Id' });
         }
 
-        // Check if the user already exists
         const userExists = await User.findOne({ collegeID });
         if (userExists) {
             return res.status(400).json({ message: 'User already registered' });
         }
 
-        // Create a new user without hashing the password
-        const newUser = new User({ collegeID, password });
-        await newUser.save();
+        const hashPassword = await bcrypt.hash(password, 10);
 
-        res.status(201).json({ message: 'Registration successful' });
+        await User.create({ collegeID, password:hashPassword });
+
+        res.status(201).json({ message: 'Registration successfull' });
     } catch (error) {
         console.error("Error during user registration:", error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-// User login endpoint
 router.post('/login', async (req, res) => {
+    const requiredBody = z.object({
+        collegeID : z.string(),
+        password: z.string().min(4)
+    });
+
+    const parsedBody = requiredBody.safeParse(req.body);
+
+    if (!parsedBody.success) {
+        return res.status(400).json({message:'Invalid Inputs'});
+    }
+
     try {
-        const { collegeID, password } = req.body;
+        const { collegeID, password } = parsedBody.data;
         
-        // Check if the user exists
         const user = await User.findOne({ collegeID });
         if (!user) {
-            return res.status(400).json({ message: 'Invalid CollegeId' });
+            return res.status(400).json({ message: 'Invalid College ID or password"' });
         }
 
-        // Compare passwords
-        const passwordMatch = await user.comparePassword(password);
-        if (!passwordMatch) {
-            return res.status(400).json({ message: 'Invalid Pssword' });
+        const verifyPassword = await bcrypt.compare(password, user.password);
+        if (!verifyPassword) {
+            return res.status(400).json({ message: 'Invalid College ID or password"' });
         }
 
-        // User authenticated, generate and send JWT token
         const token = jwt.sign({ _id: user._id }, JWT_SECRET);
-        res.json({ token, message: 'Login successful' });
+
+        res.cookie('token',token,{
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict'
+        })
+
+        res.status(200).json({message: 'Login successful' });
     } catch (error) {
         console.error("Error during user login:", error);
         res.status(500).json({ error: 'Internal server error' });
