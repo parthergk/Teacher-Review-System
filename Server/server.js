@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const reviewsRoutes = require("./routes/reviews");
 const reviewRoutes = require("./routes/review");
@@ -17,6 +18,7 @@ app.use(cors({
     origin: 'https://vgc-trs.vercel.app',
     credentials: true,
 }));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

@@ -1,15 +1,25 @@
 const express = require("express");
+const {z} = require("zod");
 const router = express.Router();
 const Review = require("../models/Reviews");
 const verifyToken = require("../middleware/verifyToken");
 
 router.post('/review', verifyToken, async (req, res) => {
+    const requiredBody = z.object({
+        collegeName:z.string(),
+        departmentName:z.string(),
+        teacherName:z.string(),
+        rating:z.number().min(1).max(5),
+        review:z.string(),
+    });
+
+    const parsedBody = requiredBody.safeParse(req.body);
+    if (!parsedBody.success) {
+        return res.status(400).json({ message: "All fields are required or Invalid Inputs" });
+    }
     try {
-        const { collegeName, departmentName, teacherName, rating, review } = req.body;
+        const { collegeName, departmentName, teacherName, rating, review } = parsedBody.data;
         
-        if (!collegeName || !departmentName || !teacherName || !rating || !review) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
         const capitalizedTeacherName = teacherName.charAt(0).toUpperCase() + teacherName.slice(1);
 
         const newReview = new Review({ collegeName, departmentName, teacherName:capitalizedTeacherName, rating, review });

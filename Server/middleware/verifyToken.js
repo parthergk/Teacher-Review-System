@@ -6,7 +6,6 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 module.exports = (req, res, next) => {
   const tokenSchema = z.string();
 
-  log
   try {
     const parseToken = tokenSchema.safeParse(req.cookies.token);
 
@@ -19,7 +18,7 @@ module.exports = (req, res, next) => {
       if (err) {
         return res.status(401).json({ message: "You must log in" });
       }
-      const { _id } = payload;
+      const { _id } = payload;      
       req.studentID = _id;
       next();
     });
