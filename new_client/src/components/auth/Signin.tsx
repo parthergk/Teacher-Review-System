@@ -37,10 +37,10 @@ const Signin = () => {
       reset();
     } catch (error) {
       const errorMessage =
-      error instanceof Error
-        ? error.message
-        : "An unknown error occurred while signing in.";
-    setMessage(errorMessage);
+        error instanceof Error
+          ? error.message
+          : "An unknown error occurred while signing in.";
+      setMessage(errorMessage);
     }
   };
 
@@ -51,7 +51,7 @@ const Signin = () => {
       </h1>
       <div className="px-5 xl:px-12 py-5 w-5/6 sm:w-2/3 lg:w-1/3 bg-primary flex flex-col rounded-md">
         <h1 className="text-center text-white font-bold text-3xl mb-8">
-          Log In
+          Sign In
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
           <input
@@ -72,19 +72,19 @@ const Signin = () => {
 
           <button
             type="submit"
-            className={`rounded ${
+            className={`rounded font-medium  ${
               isSubmitting ? "bg-gray-200 cursor-not-allowed" : "bg-white"
             } xl:mt-6 py-2 text-lg`}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            {isSubmitting ? "Logging in..." : "Sign In"}
           </button>
         </form>
-          {message && (
-        <div className="text-lg text-[#FFD700] mt-5 text-center">
-              {message}
-        </div>
-          )}
+        {message && (
+          <div className="text-lg text-[#FFD700] mt-5 text-center">
+            {message}
+          </div>
+        )}
         <span className="text-white text-lg text-center mb-5 xl:my-5">
           Don't have an account?{" "}
           <Link to={"/signup"}>

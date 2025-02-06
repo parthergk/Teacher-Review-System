@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const requiredBody = z.object({
     collegeID: z.string(),
     password: z.string().min(4),
