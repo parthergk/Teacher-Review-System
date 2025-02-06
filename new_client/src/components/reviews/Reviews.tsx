@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Review from "./Review";
 import ReviewsShi from "../ReviewsShi";
-import {isAuthenticated} from "../../../helper/index"
+import { useNavigate } from "react-router-dom";
 
 interface ReviewInf {
   _id?: string;
@@ -15,6 +15,8 @@ interface ReviewInf {
 const Reviews = () => {
   const [responseData, setResponseData] = useState<ReviewInf[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -37,18 +39,21 @@ const Reviews = () => {
 
   useEffect(() => {
     getData();
+    isAuthenticated();
   }, []);
 
-
-    async function checkAuth(url: string) {
-      const isAuth = await isAuthenticated();
-      if (isAuth) {
-        console.log("Navigate to:", url);
-      }else{
-        console.log("Navigate to:", isAuth);
-      }
+  async function isAuthenticated() {
+    try {
+      const response = await fetch("http://localhost/api/auth/verify", {
+        credentials: "include",
+      });
+      const result = await response.json();
+      setIsAuth(result.isAuthenticated);
+    } catch (error) {
+      console.log(error);
+      setIsAuth(false);
     }
-
+  }
 
   return (
     <div className="w-full lg:w-4/6 px-2 sm:px-10 md:px-20 sm:py-4 md:py-5 flex flex-col items-center">
@@ -58,13 +63,17 @@ const Reviews = () => {
       <div className="w-full bg-white p-2 sm:p-5 rounded-sm shadow-md flex flex-col items-center">
         <div className="flex justify-between w-full px-4 sm:px-10">
           <button
-            onClick={() => checkAuth("/home/addreview")}
+            onClick={() =>
+              isAuth ? navigate("/home/addreview") : navigate("/signin")
+            }
             className="bg-primary font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 p-1 rounded-sm"
           >
             Submit Review
           </button>
           <button
-            onClick={() => checkAuth("/home/searchreview")}
+            onClick={() =>
+              isAuth ? navigate("/home/searchreview") : navigate("/signin")
+            }
             className="bg-primary font-normal text-white sm:text-xl sm:px-3 sm:py-2 text-sm p-1 rounded-sm"
           >
             Search Review
