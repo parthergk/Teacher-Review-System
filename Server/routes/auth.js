@@ -93,13 +93,16 @@ router.post("/signin", async (req, res) => {
 
 router.get("/verify", (req, res) => {
   const { token } = req.cookies;
+  console.log('token', token);
   
   if (!token) {
     return res.status(401).json({ isAuthenticated: false });
   }
 
   try {
-    jwt.verify(token,JWT_SECRET);
+    const verify = jwt.verify(token,JWT_SECRET);
+    console.log('verify token', verify);
+    
     return res.status(200).json({ isAuthenticated: true });
   } catch (error) {
     return res.status(401).json({ isAuthenticated: false });
