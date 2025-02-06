@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { collegeData, departmentData } from "../mocks/data";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {url} from '../mocks/url';
