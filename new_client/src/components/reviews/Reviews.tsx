@@ -44,7 +44,7 @@ const Reviews = () => {
 
   async function isAuthenticated() {
     try {
-      const response = await fetch("http://localhost/api/auth/verify", {
+      const response = await fetch("http://localhost:3000/api/auth/verify", {
         credentials: "include",
       });
       const result = await response.json();

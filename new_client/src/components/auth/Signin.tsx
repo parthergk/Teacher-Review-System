@@ -25,6 +25,7 @@ const Signin = () => {
           collegeID: data.collegeId,
           password: data.password,
         }),
+        credentials: 'include'
       });
 
       if (!response.ok) {

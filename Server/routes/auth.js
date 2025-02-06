@@ -81,7 +81,7 @@ router.post("/signin", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
-      sameSite: "strict",
+      sameSite: 'strict',
     });
 
     res.status(200).json({ message: "Login successful" });
@@ -93,13 +93,13 @@ router.post("/signin", async (req, res) => {
 
 router.get("/verify", (req, res) => {
   const { token } = req.cookies;
-
+  
   if (!token) {
     return res.status(401).json({ isAuthenticated: false });
   }
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET);
+    jwt.verify(token,JWT_SECRET);
     return res.status(200).json({ isAuthenticated: true });
   } catch (error) {
     return res.status(401).json({ isAuthenticated: false });

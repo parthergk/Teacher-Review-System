@@ -72,7 +72,7 @@ return (
         </form>
         <div className=" text-lg text-gray-400 mt-5 text-center">{message}</div>
         
-        <span className=" text-white text-lg text-end mb-5 xl:my-5">Already have an account? <Link to={"/"}><button className=" text-white underline">Login</button></Link></span>
+        <span className=" text-white text-lg text-end mb-5 xl:my-5">Already have an account? <Link to={"/signin"}><button className=" text-white underline">Login</button></Link></span>
       </div>
     </div>
   );
