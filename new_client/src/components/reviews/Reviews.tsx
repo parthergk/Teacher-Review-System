@@ -66,7 +66,7 @@ const Reviews = () => {
             onClick={() =>
               isAuth ? navigate("/home/addreview") : navigate("/signin")
             }
-            className="bg-primary font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 p-1 rounded-sm"
+            className="bg-primary font-normal text-white text-sm sm:text-xl sm:px-3 sm:py-2 p-1 rounded-sm cursor-pointer"
           >
             Submit Review
           </button>
@@ -74,7 +74,7 @@ const Reviews = () => {
             onClick={() =>
               isAuth ? navigate("/home/searchreview") : navigate("/signin")
             }
-            className="bg-primary font-normal text-white sm:text-xl sm:px-3 sm:py-2 text-sm p-1 rounded-sm"
+            className="bg-primary font-normal text-white sm:text-xl sm:px-3 sm:py-2 text-sm p-1 rounded-sm cursor-pointer"
           >
             Search Review
           </button>
