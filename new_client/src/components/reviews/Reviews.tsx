@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Review from "./Review";
 import ReviewsShi from "../ReviewsShi";
+import {isAuthenticated} from "../../../helper/index"
 
 interface ReviewInf {
   _id?: string;
@@ -38,9 +39,16 @@ const Reviews = () => {
     getData();
   }, []);
 
-  function checkAuth(url: string) {
-    console.log("Navigate to:", url);
-  }
+
+    async function checkAuth(url: string) {
+      const isAuth = await isAuthenticated();
+      if (isAuth) {
+        console.log("Navigate to:", url);
+      }else{
+        console.log("Navigate to:", isAuth);
+      }
+    }
+
 
   return (
     <div className="w-full lg:w-4/6 px-2 sm:px-10 md:px-20 sm:py-4 md:py-5 flex flex-col items-center">
