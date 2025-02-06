@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/signin", async (req, res) => {
   const requiredBody = z.object({
     collegeID: z.string(),
     password: z.string().min(4),

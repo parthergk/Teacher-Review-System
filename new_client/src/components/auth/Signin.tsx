@@ -1,15 +1,48 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 type Inputs = {
-  collegeId:string,
-  password:string
-}
+  collegeId: string;
+  password: string;
+};
 const Signin = () => {
-  const { register, handleSubmit, formState: {isSubmitting } } = useForm<Inputs>();
-  const onSubmit:SubmitHandler<Inputs> = (data)=>{
-    console.log(data);
-    
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+  } = useForm<Inputs>();
+  const [message, setMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          collegeID: data.collegeId,
+          password: data.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errormsg = await response.json();
+        throw new Error(errormsg.message);
+      }
+
+      const result = await response.json();
+      setMessage(result.message);
+      reset();
+    } catch (error) {
+      const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "An unknown error occurred while signing in.";
+    setMessage(errorMessage);
+    }
+  };
 
   return (
     <div className="w-full m-auto flex flex-col justify-center items-center h-svh bg-gray-100">
@@ -25,37 +58,41 @@ const Signin = () => {
             className="text-white bg-transparent border border-white px-2 py-1 text-lg focus:outline-none"
             placeholder="Enter Your CollegeId"
             type="text"
-            defaultValue=""
-            {...register('collegeId', {required:'College Id is required'})}
+            defaultValue="BCA2020130"
+            {...register("collegeId", { required: "College Id is required" })}
           />
 
           <input
             className="text-white bg-transparent border border-white px-2 py-1 text-lg focus:outline-none"
             placeholder="Enter Your Password"
             type="password"
-            defaultValue="password"
-            {...register('password')}
+            defaultValue="gaurav@123"
+            {...register("password")}
           />
 
           <button
             type="submit"
             className={`rounded ${
-              isSubmitting ? "bg-gray-200" : "bg-white"
+              isSubmitting ? "bg-gray-200 cursor-not-allowed" : "bg-white"
             } xl:mt-6 py-2 text-lg`}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Logining" : "Login"}
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
-        <div className="text-lg text-gray-400 mt-5 text-center">message</div>
-        <span className="text-white text-lg text-end mb-5 xl:my-5">
+          {message && (
+        <div className="text-lg text-[#FFD700] mt-5 text-center">
+              {message}
+        </div>
+          )}
+        <span className="text-white text-lg text-center mb-5 xl:my-5">
           Don't have an account?{" "}
           <Link to={"/signup"}>
             <button className="text-white underline">SignUp</button>
           </Link>
         </span>
       </div>
-      {/* <span className="my-5 px-7 text-center">
+      <span className="my-5 px-7 text-center">
         <p className="text-lg font-medium">
           Login using this College ID and Password to test the app
         </p>
@@ -65,14 +102,7 @@ const Signin = () => {
         <h1 className="text-center">
           <span className="font-medium">Password :</span> gaurav@123
         </h1>
-        {isCopied ? (
-          <span>Copied</span>
-        ) : (
-          <span onClick={clipCopy} className="cursor-pointer text-blue-500">
-            Copy
-          </span>
-        )}
-      </span> */}
+      </span>
     </div>
   );
 };
