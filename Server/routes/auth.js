@@ -82,6 +82,7 @@ router.post("/signin", async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     res.status(200).json({ message: "Login successful" });
@@ -101,7 +102,6 @@ router.get("/verify", (req, res) => {
 
   try {
     const verify = jwt.verify(token,JWT_SECRET);
-    console.log('verify token', verify);
     
     return res.status(200).json({ isAuthenticated: true });
   } catch (error) {
