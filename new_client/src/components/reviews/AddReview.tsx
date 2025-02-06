@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { collegeData, departmentData } from "../mocks/data";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {url} from '../mocks/url';
 
 type Inputs = {
   collegeName: string;
@@ -11,12 +12,36 @@ type Inputs = {
 };
 
 const AddReview = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
   const [selectedCollege, setSelectedCollege] = useState<string | undefined>(undefined);
+  const [message, setMessage] = useState<string | null>(null);
   const rating = [1, 2, 3, 4, 5];
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const response = await fetch(`${url}/api/review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Failed to submit the review.");
+      }
+
+      const result = await response.json();
+      setMessage(result.message || "Review submitted successfully!");
+      reset();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      setMessage(
+        error instanceof Error ? error.message : "An unknown error occurred."
+      );
+    }
   };
 
   return (
@@ -31,10 +56,10 @@ const AddReview = () => {
           className="w-full rounded-sm shadow-md p-2 sm:p-4 md:p-5 flex flex-col items-center"
         >
           <div className="w-full">
-            <label className="text-sm2 md:text-lg text-gray-800">College Name :</label>
+            <label className="text-[1rem] md:text-lg text-gray-800">College Name :</label>
             <select
               defaultValue=""
-              {...register("collegeName")}
+              {...register("collegeName", { required: true })}
               onChange={(e) => setSelectedCollege(e.target.value)}
               className="w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 focus:outline-none"
             >
@@ -48,10 +73,10 @@ const AddReview = () => {
           </div>
 
           <div className="w-full">
-            <label className="text-sm2 md:text-lg text-gray-800">Department Name :</label>
+            <label className="text-[1rem] md:text-lg text-gray-800">Department Name :</label>
             <select
               defaultValue=""
-              {...register("departmentName")}
+              {...register("departmentName", { required: true })}
               className="w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 focus:outline-none"
             >
               <option value="">Select a Department</option>
@@ -65,19 +90,19 @@ const AddReview = () => {
           </div>
 
           <div className="w-full">
-            <label className="text-sm2 md:text-lg text-gray-800">Teacher Name :</label>
+            <label className="text-[1rem] md:text-lg text-gray-800">Teacher Name :</label>
             <input
               className="w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 px-1 focus:outline-none"
               defaultValue=""
-              {...register("teacherName")}
+              {...register("teacherName", { required: true })}
             />
           </div>
 
           <div className="w-full">
-            <label className="text-sm2 md:text-lg text-gray-800">Rating :</label>
+            <label className="text-[1rem] md:text-lg text-gray-800">Rating :</label>
             <select
               defaultValue=""
-              {...register("rating", { valueAsNumber: true })}
+              {...register("rating", { valueAsNumber: true, required: true })}
               className="w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 focus:outline-none"
             >
               <option value="">Give the star</option>
@@ -90,11 +115,11 @@ const AddReview = () => {
           </div>
 
           <div className="w-full">
-            <label className="text-sm2 md:text-lg text-gray-800">Enter Your Review :</label>
+            <label className="text-[1rem] md:text-lg text-gray-800">Enter Your Review :</label>
             <textarea
               className="w-full block border border-gray-500 rounded-sm text-lg h-20 mb-2 mt-1 p-2 focus:outline-none"
               defaultValue=""
-              {...register("review")}
+              {...register("review", { required: true })}
             />
           </div>
           <button
@@ -104,6 +129,11 @@ const AddReview = () => {
             Submit
           </button>
         </form>
+        {message && (
+          <p className="mt-4 text-center text-lg font-medium text-gray-800">
+            {message}
+          </p>
+        )}
       </div>
     </div>
   );

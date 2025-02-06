@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { url } from "../mocks/url";
+
 type Inputs = {
   collegeId: string;
   password: string;
@@ -16,7 +18,7 @@ const Signup = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch(`${url}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

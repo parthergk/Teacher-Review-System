@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Review from "./Review";
 import ReviewsShi from "../ReviewsShi";
 import { useNavigate } from "react-router-dom";
+import {url} from '../mocks/url';
 
 interface ReviewInf {
   _id?: string;
@@ -20,7 +21,7 @@ const Reviews = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/reviews");
+      const response = await fetch(`${url}/api/reviews`);
       if (!response.ok) {
         setErrorMsg("Server side error");
         return;
@@ -44,7 +45,7 @@ const Reviews = () => {
 
   async function isAuthenticated() {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/verify", {
+      const response = await fetch(`${url}/api/auth/verify`, {
         credentials: "include",
       });
       const result = await response.json();
