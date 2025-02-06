@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { z } = require("zod");
-const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = (req, res, next) => {
   const tokenSchema = z.string();

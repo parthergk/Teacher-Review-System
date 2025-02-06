@@ -6,7 +6,7 @@ const User = require("../models/User");
 const CollegeID = require("../models/CollegeId");
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
