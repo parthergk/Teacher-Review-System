@@ -85,7 +85,6 @@ router.post("/signin", async (req, res) => {
       secure: true,
       sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: 'https://vgc-trs.vercel.app'
     });
 
     res.status(200).json({ message: "Login successful" });
