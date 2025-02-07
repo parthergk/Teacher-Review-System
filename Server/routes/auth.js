@@ -4,9 +4,11 @@ const { z } = require("zod");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const CollegeID = require("../models/CollegeId");
+require('dotenv').config();
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
+
 
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
@@ -43,7 +45,7 @@ router.post("/signup", async (req, res) => {
     res.status(201).json({ message: "Registration successfull" });
   } catch (error) {
     console.error("Error during user registration:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -88,13 +90,12 @@ router.post("/signin", async (req, res) => {
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.error("Error during user login:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 router.get("/verify", (req, res) => {
   const { token } = req.cookies;
-  console.log('token', token);
   
   if (!token) {
     return res.status(401).json({ isAuthenticated: false });
