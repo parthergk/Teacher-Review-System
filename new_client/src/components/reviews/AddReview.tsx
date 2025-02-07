@@ -36,6 +36,7 @@ const AddReview = () => {
       const result = await response.json();
       setMessage(result.message || "Review submitted successfully!");
       reset();
+      setSelectedCollege(undefined);
     } catch (error) {
       console.error("Error submitting review:", error);
       setMessage(

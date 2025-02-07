@@ -5,11 +5,20 @@ const Review = require("../models/Reviews");
 
 router.post('/search', verifyToken, async (req, res) => {
     try {
-        const { collegeName, departmentName, teacherName } = req.body; // Changed from req.query to req.body
+        const { collegeName, departmentName, teacherName } = req.body;
         const capitalizedTeacherName = teacherName.charAt(0).toUpperCase() + teacherName.slice(1);
-        const reviews = await Review.find({ collegeName, departmentName, teacherName:capitalizedTeacherName }); // Simplified object property assignment
-        res.status(200).json(reviews); // Changed status to 200 as it's a successful response
-
+        const query = {};
+        if (collegeName) {
+            query.collegeName = collegeName;
+          }
+          if (departmentName) {
+            query.departmentName = departmentName;
+          }
+          if (capitalizedTeacherName) {
+            query.teacherName = capitalizedTeacherName;
+          }
+        const reviews = await Review.find(query);
+        res.status(200).json(reviews);
     } catch (error) {
         console.error("Error in search route:", error);
         res.status(500).json({ error: "Internal server error" });
