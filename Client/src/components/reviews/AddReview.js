@@ -69,7 +69,7 @@ const AddReview = () => {
       <form onSubmit={addReview} className="w-full rounded-sm shadow-md  p-2 sm:p-4 md:p-5 flex flex-col items-center">
        
         <div className=" w-full">
-        <label className=" text-sm2 md:text-lg text-gray-800">College Name : </label>
+        <label className=" text-[1rem] md:text-lg text-gray-800">College Name : </label>
         <select onChange={handleCollegeChange} value={selectedCollege} className=" w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 focus:outline-none">
           <option value="">Select a college</option>
           {collegeData.map((college) => (
@@ -81,7 +81,7 @@ const AddReview = () => {
         </div>
 
         <div className=" w-full ">
-        <label  className=" text-sm2 md:text-lg text-gray-800">Department Name : </label>
+        <label  className=" text-[1rem] md:text-lg text-gray-800">Department Name : </label>
         <select onChange={handleDepartmentChange} value={selectedDepartment} className=" w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 focus:outline-none">
           <option value="">Select a Department</option>
           {selectedCollege &&
@@ -94,7 +94,7 @@ const AddReview = () => {
         </div>
 
         <div className=" w-full">
-        <label className=" text-sm2 md:text-lg text-gray-800">Teacher Name : </label>
+        <label className=" text-[1rem] md:text-lg text-gray-800">Teacher Name : </label>
         <input
           className=" w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 px-1 focus:outline-none"
           value={selectedTeacher}
@@ -103,7 +103,7 @@ const AddReview = () => {
         </div>
         
         <div className=" w-full">
-        <label className=" text-sm2 md:text-lg text-gray-800">Rating : </label>
+        <label className=" text-[1rem] md:text-lg text-gray-800">Rating : </label>
         <select onChange={handleRatingChange} value={selectedStar} className=" w-full block border border-gray-500 rounded-sm text-sm md:text-lg h-6 md:h-8 mb-2 mt-1 focus:outline-none">
           <option value="">Give the star</option>
           {rating.map((star) => (
@@ -115,7 +115,7 @@ const AddReview = () => {
         </div>
 
         <div className=" w-full">
-        <label className=" text-sm2 md:text-lg text-gray-800">Enter Your Review : </label>
+        <label className=" text-[1rem] md:text-lg text-gray-800">Enter Your Review : </label>
         <textarea
           className=" w-full block border border-gray-500 rounded-sm text-lg h-20 mb-2 mt-1 p-2 focus:outline-none"
           value={givenReview}

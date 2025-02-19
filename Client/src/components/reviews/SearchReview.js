@@ -90,7 +90,7 @@ export const SearchReview = () => {
             className="w-full rounded-sm shadow-md  p-2 sm:p-4 md:p-5 flex flex-col items-center"
           >
             <div className=" w-full">
-              <label className=" text-sm2 md:text-lg text-gray-800">
+              <label className=" text-[1rem] md:text-lg text-gray-800">
                 College Name :{" "}
               </label>
               <select
@@ -108,7 +108,7 @@ export const SearchReview = () => {
             </div>
 
             <div className=" w-full ">
-              <label className=" text-sm2 md:text-lg text-gray-800">
+              <label className=" text-[1rem] md:text-lg text-gray-800">
                 Department Name :{" "}
               </label>
               <select
@@ -127,7 +127,7 @@ export const SearchReview = () => {
             </div>
 
             <div className=" w-full">
-              <label className=" text-sm2 md:text-lg text-gray-800">
+              <label className=" text-[1rem] md:text-lg text-gray-800">
                 Teacher Name :{" "}
               </label>
               <input
